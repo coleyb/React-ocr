@@ -2,7 +2,9 @@ import React from 'react';
 import Dropzone from './Dropzone';
 import UploaderProgressStep from './UploaderProgressStep';
 import { TesseractWorker } from 'tesseract.js';
-import { Button } from 'semantic-ui-react';
+import Button from 'react-bootstrap/Button';
+
+
 const renderHTML = require('react-render-html');
 const worker = new TesseractWorker();
 
@@ -17,20 +19,23 @@ class FileUploader extends React.Component {
         translatedWords: [],
         uploadedImage: null,
         progress: 0,
-        progressStep: []
+        progressStep: [],
+        isLoading: false
        };
     }
 
     recognize(image) {
-        this.setState({uploadedImage: image.path})
+        this.setState({ isLoading: true });
+        this.setState({ uploadedImage: image.path })
         let t0 = performance.now();
         console.log(Date.now());
         console.log('Button was clicked!');
         worker.recognize(image, 'eng')
         .progress(progress => {
-          this.setState({progressStep: progress.status})
-          this.setState({progress: Math.round(progress.progress * 100)})
+          this.setState({ progressStep: progress.status })
+          this.setState({ progress: Math.round(progress.progress * 100) })
         }).then(result => {
+          this.setState({ isLoading: false });
           this.setState({ progressStep: this.progressStep});
           this.setState({ translatedText: result.hocr});
           this.setState({ translatedWords: result.words});
@@ -54,11 +59,16 @@ class FileUploader extends React.Component {
         }
         return <div className={"inner " + (confidence)}  key={index}>{w.text}</div>
       })
+
+      let uploader;
+      if (this.state.isLoading) {
+        uploader = <UploaderProgressStep progressStep={this.state.progressStep} percentage={this.state.progress} />
+      }
     return (
         <div className="uploader">
           <Dropzone onDrop={this.recognize} />
-          <Button primary onClick={this.recognize}>Recognize</Button>
-          <UploaderProgressStep progressStep={this.state.progressStep} percentage={this.state.progress} />
+          <Button disabled={this.state.isLoading} onClick={this.recognize}>{this.state.isLoading ? 'Processing…' : 'Recognize'}</Button>
+          {uploader}
           <div className="word-wrap">
             {listWords}
           </div>
