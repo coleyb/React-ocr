@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Image } from 'semantic-ui-react'
+import Card from 'react-bootstrap/Card'
+
+const renderHTML = require('react-render-html');
 
 const thumbsContainer = {
   display: 'flex',
@@ -11,14 +13,10 @@ const thumbsContainer = {
 
 const thumb = {
   display: 'inline-flex',
-  borderRadius: 2,
-  border: '1px solid #eaeaea',
   marginBottom: 8,
   marginRight: 8,
   width: 250,
-  height: 250,
   padding: 4,
-  boxSizing: 'border-box'
 };
 
 const thumbInner = {
@@ -46,17 +44,14 @@ function Dropzone(props) {
   });
 
   const thumbs = files.map(file => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <Image.Group size='tiny'>
-          <Image
-            src={file.preview}
-            alt="uploaded"
-            style={img}
-          />
-        </Image.Group>
-      </div>
-    </div>
+    <aside style={thumb} key={file.name}>
+      <Card>
+        <Card.Img variant="top" src={file.preview} alt="uploaded" />
+        <Card.Body>
+          <Card.Title>Uploaded Image</Card.Title>
+        </Card.Body>
+      </Card>
+    </aside>
   ));
 
   useEffect(() => () => {
@@ -70,9 +65,9 @@ function Dropzone(props) {
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select files</p>
       </div>
-      <aside style={thumbsContainer}>
+      <div style={thumbsContainer}>
         {thumbs}
-      </aside>
+      </div>
     </section>
   );
 }
