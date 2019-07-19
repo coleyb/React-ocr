@@ -30,33 +30,54 @@ const img = {
   height: '100%'
 };
 
-
 function Dropzone(props) {
   const [files, setFiles] = useState([]);
   const {getRootProps, getInputProps} = useDropzone({
     accept: 'image/*',
     onDrop: (acceptedFiles) => {
-      props.onDrop(acceptedFiles[0]);
+      props.onDrop(acceptedFiles);
       setFiles(acceptedFiles.map(file => Object.assign(file, {
         preview: URL.createObjectURL(file)
       })));
     }
   });
 
-  const thumbs = files.map(file => (
-    <aside style={thumb} key={file.name}>
+  const listText = props.translatedText.map((text, index) => {
+    files.map((file, fileIndex) => {
+      console.log('text', text);
+      console.log('file', file);
+      if (index === fileIndex) {
+        return <div>{renderHTML(text)}</div>
+      }
+    });
+  })
+
+  const thumbs = files.map((file, index) => {
+    // This seems like a hack. Needs refactoring
+    const listText = props.translatedText.map((text, textIndex) => {
+        if (index === textIndex) {
+          return <div>{renderHTML(text)}</div>
+        }
+      });
+
+    return ( <aside style={thumb} key={file.name}>
       <Card>
         <Card.Img variant="top" src={file.preview} alt="uploaded" />
         <Card.Body>
           <Card.Title>Uploaded Image</Card.Title>
+          <Card.Text>
+            {listText}
+          </Card.Text>
         </Card.Body>
       </Card>
     </aside>
-  ));
+  )});
 
   useEffect(() => () => {
     // Make sure to revoke the data uris to avoid memory leaks
-    files.forEach(file => URL.revokeObjectURL(file.preview));
+    files.forEach(file => {
+      URL.revokeObjectURL(file.preview)
+    });
   }, [files]);
 
   return (
