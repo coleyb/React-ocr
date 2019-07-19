@@ -1,0 +1,155 @@
+:root {
+    /* Global Color Book - Only use these variables inside variables.css */
+    /* For colors with a number based naming system, 1 is the lightest with colors getting darker as the number increases */
+    --color-black: #000;
+    --color-white: #fff;
+    /* Blues */
+    /* TODO UXD: Determine expandable naming scheme for color scales (based on double-digit lightness value?) */
+    --color-blue-0: #e6f0fd;
+    --color-blue-1: #0b64e1;
+    --color-blue-2: #0b56bf;
+    --color-blue-3: #0045a5;
+    --color-blue-4: #002e99;
+    --color-blue-5: #002273;
+    --color-blue-6: #001545;
+    /* Grays */
+    --color-gray-1: #fafafa;
+    --color-gray-2: #f6f6f6;
+    --color-gray-3: #dbdbdb;
+    --color-gray-4: #c7c7c7;
+    --color-gray-5: #adadad;
+    --color-gray-6: #717171;
+    --color-gray-7: #333;
+    --color-gray-8: #e7e7e7;
+
+    /* NEUTRAL GLOBAL COLORS */
+    --color-g-black: var(--color-black);
+    --color-g-primary-gray: var(--color-gray-7);
+    --color-g-secondary-gray: var(--color-gray-6);
+    --color-g-ui-dark-gray: var(--color-gray-4);
+    --color-g-ui-gray: var(--color-gray-3);
+    --color-g-ui-light-gray: var(--color-gray-8);
+    --color-g-background-gray: var(--color-gray-2);
+    --color-g-background-light-gray: var(--color-gray-1);
+    --color-g-background-hover: var(--color-blue-0);
+    --color-g-white: var(--color-white);
+    --color-g-transparent: transparent;
+
+
+    /* GLOBAL ACCENT COLORS */
+    --color-g-accent-primary: var(--color-blue-1);
+    --color-g-accent-primary-hover: var(--color-blue-2);
+    --color-g-accent-primary-active: var(--color-blue-3);
+    --color-g-accent-secondary: var(--color-blue-4);
+    --color-g-accent-secondary-hover: var(--color-blue-5);
+    --color-g-accent-secondary-active: var(--color-blue-6);
+
+
+    /* GLOBAL STATE COLORS */
+    --color-g-state-warning: #ef7000;
+    --color-g-state-warning-light: #fefbf7;
+    --color-g-state-success: #0a6;
+    --color-g-state-success-light: #f7fcfa;
+    --color-g-state-error: #e52345;
+    --color-g-state-error-light: #fffafb;
+    --color-g-state-disabled: var(--color-gray-5);
+    --color-g-state-selected: #e6f0fd;
+
+
+    /* GLOBAL COMPONENT COLORS */
+    --color-g-component-guides: var(--color-gray-3);
+    --color-g-component-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+    --color-g-component-shadow-top: 0 -2px 4px rgba(0, 0, 0, .1);
+    --color-g-component-overlay-background: rgba(0, 0, 0, .25);
+    /* GLOBAL GRADIENT */
+    --color-g-brand-gradient: linear-gradient(55deg, var(--color-theme-brand) 0%, var(--color-theme-brand-secondary) 100%);
+
+    /* GLOBAL HEADER COLORS */
+    --color-g-header-shadow: 0 2px 4px -4px rgba(0, 0, 0, .08), 0 0 6px 0 rgba(0, 0, 0, .06), 0 2px 6px -4px rgba(0, 0, 0, .08);
+
+    /* GLOBAL OVERLAY COLORS */
+    --color-g-overlay-shadow: 0 8px 6px -8px rgba(0, 0, 0, .08), 0 0 10px 1px rgba(0, 0, 0, .04), 16px 0 20px -8px rgba(0, 0, 0, .12);
+
+
+    /* FONT FAMILIES */
+    --font-source-sans: "Source Sans", sans-serif;
+
+
+    /* FONT WEIGHTS */
+    --weight-regular: 400;
+    --weight-semibold: 600;
+    --weight-bold: 700;
+    --weight-black: 900;
+
+
+    /* GLOBAL MEASUREMENTS */
+    --global-gutter: 16px;
+    --global-radius: 4px;
+    --global-radius-small: 2px;
+    --global-icon-container-micro: 16px;
+    --global-icon-container-small: 20px;
+    --global-icon-container: 24px;
+    --global-header-height: 56px;
+    --global-content-header-height: 64px;
+    --global-content-header-height-large: 80px;
+
+    /* TRANSITION */
+    --global-transition: .3s ease;
+    --global-transition-spinner: 1s infinite linear;
+
+
+    /* Z-INDICES */
+    --stack-header: 1;
+    --stack-environment-badge: 2;
+    --stack-round-action-button: 2;
+    --stack-chat: 3;
+    --stack-content-header: 4;
+    --stack-sidenav: 5;
+    --stack-toolbar: 6;
+    --stack-sidepanel-overlay: 7;
+    --stack-sidepanel: 8;
+    --stack-modal-fullscreen: 995;
+    --stack-modal-overlay: 996;
+    --stack-modal: 997;
+    --stack-banner: 998;
+    --stack-tool-tip: 999;
+    /* 1000 is reserved for `.ember-basic-dropdown-content` */
+  }
+
+  .dropzone {
+      border: 2px dashed #0087F7;
+      border-radius: 5px;
+      background: white;
+      min-height: 150px;
+      padding: 54px 54px;
+      cursor: pointer;
+  }
+
+  .word-wrap {
+    width: 90%;
+    height: 90%;
+    margin: 5%;
+    overflow: auto;
+  }
+
+  .inner {
+    display: inline-block;
+    margin: 2px;
+    padding: 1px 1px 1px 1px;
+  }
+
+  .certain {
+    border-width: 2px;
+    border-color: #4BCA81;
+    border-style: solid;
+  }
+  .uncertain {
+    border-width: 2px;
+    border-color: #ffb347;
+    border-style: solid;
+  }
+  .unlikely {
+    border-width: 2px;
+    border-color: #FF0000;
+    border-style: solid;
+  }
