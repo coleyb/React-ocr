@@ -16,6 +16,10 @@
     "semantic-ui-react": "^0.87.1",
     "tesseract.js": "^2.0.0-alpha.11"
   },
+    "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
