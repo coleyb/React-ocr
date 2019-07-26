@@ -46,8 +46,9 @@ class FileUploader extends React.Component {
         this.setState({test: [...this.state.test, {imageIndex: index, result}]});
         this.setState({ isLoading: false });
         this.setState({ progressStep: this.progressStep});
-        this.setState({ translatedText: [...this.state.translatedText, result.hocr] })
-        this.setState({ translatedWords: [...this.state.translatedWords, result.words] })
+        this.setState({ translatedText: [...this.state.translatedText, result.hocr] });
+        this.setState({ translatedWords: [...this.state.translatedWords, result.words] });
+        this.setState({progress: []});
         var t1 = performance.now();
         console.log('this.state', this.state);
         console.log("Conversion took: " + (t1 - t0) + " milliseconds.")
