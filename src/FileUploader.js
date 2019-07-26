@@ -1,6 +1,5 @@
 import React from 'react';
 import Dropzone from './Dropzone';
-import UploaderProgressStep from './UploaderProgressStep';
 import { TesseractWorker } from 'tesseract.js';
 import Button from 'react-bootstrap/Button';
 
@@ -12,41 +11,48 @@ const worker = new TesseractWorker();
 class FileUploader extends React.Component {
     constructor(props) {
       super(props);
-      this.recognize = this.recognize.bind(this);
-      this.progressStep = [];
+      this.recognizeImages = this.recognizeImages.bind(this);
       this.state = {
+        test: '',
+        progress: '',
         translatedText: [],
         translatedWords: [],
-        progress: 0,
-        progressStep: [],
         isLoading: false
        };
        this.baseState = this.state;
     }
 
-    recognize(images) {
-        this.setState(this.baseState);
-        this.setState({ isLoading: true });
-        let t0 = performance.now();
-        console.log(Date.now());
-        console.log('Button was clicked!');
-        images.forEach(image => {
-          console.log('image', image);
-          worker.recognize(image, 'eng')
-          .progress(progress => {
-            this.setState({ progressStep: progress.status })
-            this.setState({ progress: Math.round(progress.progress * 100) })
-          }).then(result => {
-            console.log('result', result);
-            this.setState({ isLoading: false });
-            this.setState({ progressStep: this.progressStep});
-            this.setState({ translatedText: [...this.state.translatedText, result.hocr] })
-            this.setState({ translatedWords: [...this.state.translatedWords, result.words] })
-            console.log('this.state.translatedWords', this.state.translatedWords);
-            var t1 = performance.now();
-            console.log("Conversion took: " + (t1 - t0) + " milliseconds.")
-          });
-        });
+    // Iterate over uploading images
+    recognizeImages(images) {
+      this.setState(this.baseState);
+      this.setState({ isLoading: true });
+      images.forEach((image, index) => {
+        this.recognizeImage(image, index);
+      });
+    }
+
+    // Add progress and image recognition to state here
+    recognizeImage(image, index) {
+      let t0 = performance.now();
+      worker.recognize(image, 'eng')
+      .progress(progress => {
+        console.warn('starting processing image', index);
+        this.setState({progress: [{
+          imageIndex: index,
+          progressStatus: progress.status,
+          progress: Math.round(progress.progress * 100)
+        }]});
+      }).then(result => {
+        this.setState({test: [...this.state.test, {imageIndex: index, result}]});
+        this.setState({ isLoading: false });
+        this.setState({ progressStep: this.progressStep});
+        this.setState({ translatedText: [...this.state.translatedText, result.hocr] })
+        this.setState({ translatedWords: [...this.state.translatedWords, result.words] })
+        var t1 = performance.now();
+        console.log('this.state', this.state);
+        console.log("Conversion took: " + (t1 - t0) + " milliseconds.")
+        console.warn('finished processing image', index);
+      });
     }
 
     render() {
@@ -66,15 +72,10 @@ class FileUploader extends React.Component {
         })
       })
 
-      let uploader;
-      if (this.state.isLoading) {
-        uploader = <UploaderProgressStep progressStep={this.state.progressStep} percentage={this.state.progress} />
-      }
     return (
         <div className="uploader">
-          <Dropzone onDrop={this.recognize} translatedText={this.state.translatedText} />
-          <Button disabled={this.state.isLoading} onClick={this.recognize}>{this.state.isLoading ? 'Processing…' : 'Recognize'}</Button>
-          {uploader}
+          <Dropzone onDrop={this.recognizeImages} translatedText={this.state.translatedText} progress={this.state.progress} />
+          <Button disabled={this.state.isLoading} onClick={this.recognizeImages}>{this.state.isLoading ? 'Processing…' : 'Recognize'}</Button>
           <div className="word-wrap">
             {listWords}
           </div>

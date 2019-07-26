@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import Card from 'react-bootstrap/Card'
-
-const renderHTML = require('react-render-html');
+import Card from 'react-bootstrap/Card';
+import UploaderProgressStep from './UploaderProgressStep';
+import renderHTML from 'react-render-html'
 
 const thumbsContainer = {
   display: 'flex',
@@ -44,8 +44,8 @@ function Dropzone(props) {
 
   const listText = props.translatedText.map((text, index) => {
     files.map((file, fileIndex) => {
-      console.log('text', text);
-      console.log('file', file);
+      // console.log('text', text);
+      // console.log('file', file);
       if (index === fileIndex) {
         return <div>{renderHTML(text)}</div>
       }
@@ -56,18 +56,28 @@ function Dropzone(props) {
     // This seems like a hack. Needs refactoring
     const listText = props.translatedText.map((text, textIndex) => {
         if (index === textIndex) {
-          return <div>{renderHTML(text)}</div>
+          return <div key={index}>{renderHTML(text)}</div>
         }
       });
+
+      // This is a an array of values whereas text above is a single value
+      let progress;
+      if (props.progress.length > 0) {
+        progress = props.progress.map((progress, progressIndex) => {
+          console.log('progress', progress);
+          if (index === progress.imageIndex) {
+            return <UploaderProgressStep key={progressIndex} progressStep={progress.progressStatus} percentage={progress.progress} />
+          }
+        });
+      }
 
     return ( <aside style={thumb} key={file.name}>
       <Card>
         <Card.Img variant="top" src={file.preview} alt="uploaded" />
         <Card.Body>
           <Card.Title>Uploaded Image</Card.Title>
-          <Card.Text>
             {listText}
-          </Card.Text>
+            {progress}
         </Card.Body>
       </Card>
     </aside>
@@ -79,6 +89,11 @@ function Dropzone(props) {
       URL.revokeObjectURL(file.preview)
     });
   }, [files]);
+
+  // let uploader;
+  // if (this.props.isLoading) {
+  //   uploader = <UploaderProgressStep progressStep={this.state.progressStep} percentage={this.state.progress} />
+  // }
 
   return (
     <section className="container">
