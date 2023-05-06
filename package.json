@@ -16,7 +16,7 @@
     "react-dom": "^16.8.6",
     "react-dropzone": "^10.1.5",
     "react-render-html": "^0.6.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "semantic-ui-react": "^0.87.1",
     "tesseract.js": "^2.0.0-alpha.11"
   },
